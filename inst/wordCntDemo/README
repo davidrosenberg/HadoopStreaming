@@ -1,0 +1,41 @@
+This directory provides the classic Hadoop word count example.
+
+The file hsWordCnt.R contains both the mapper and the reducer.
+
+The script ./run.sh runs the map/reduce job from the command line (not in Hadoop).
+
+To see what's going on more slowly, do the following:
+
+*  Make sure hsWordCnt.R is executable
+chmod +x hsWordCnt.R   
+
+* To get an idea of the options, run
+./hsWordCnt.R
+
+* Take a look at the file we're going to be word counting
+head anna.txt
+
+* Run the mapper on the first 5 lines of anna.txt:
+head -n 5 anna.txt | ./hsWordCnt.R --mapper
+
+* Run the mapper and reducer on the whole file:
+cat anna.txt | ./hsWordCnt.R --mapper | sort | ./hsWordCnt.R --reducer
+
+* Run the mapper and reducer, and put headers on final output:
+head -n 5 anna.txt | ./hsWordCnt.R --mapper | sort | ./hsWordCnt.R --reducer --reducecols
+
+RUNNING IN HADOOP:
+* Make sure the map and reduce steps run on the command line of each computer in the cluster
+* The file RLibDeploy.sh gives a framework for distributing R source
+  files and R libraries to each machine in the cluster.
+* Edit the paths in runHadoop.sh, and run that script.
+
+FOR MORE INFO:
+* Look at the package documentation from inside R:
+?HadoopStreaming
+* Look also at the documentation for the functions therein, especially:
+?hsTableReader
+* hsCmdLineArgs can be very helpful, but is not necessary
+
+
+Author: David S. Rosenberg <drosen@sensenetworks.com>
